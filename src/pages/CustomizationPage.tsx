@@ -241,7 +241,7 @@ const CustomizationPage: React.FC = () => {
       {menuItem.priceWithFries && (
         <div className="mt-4 border border-gray-200 rounded-lg p-3 bg-gray-50">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-800 font-medium">🍟 Con papas francesas:</span>
+            <span className="text-gray-800 font-medium">🍟 Con papas rusticas:</span>
             <span className="text-[#FF8C00] font-bold">
               ${menuItem.priceWithFries.toLocaleString()}
             </span>
