@@ -284,34 +284,7 @@ const CustomizationPage: React.FC = () => {
                         <span className="text-lg font-bold text-gray-800">Papas Francesas</span>
                         <p className="text-sm text-gray-600">Papas francesas crujientes y doradas</p>
                       </div>
-                    </div>
-                    <span className="font-bold text-[#FF8C00] text-lg">
-                      +${((menuItem.priceWithFries || menuItem.price) - menuItem.price).toLocaleString()}
-                    </span>
-                  </label>
-                </div>
-              )}
-                            {/* Fries option - prominent placement */}
-              {menuItem.priceWithFries && (
-                <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200">
-                  <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                    <span className="text-2xl mr-3">🍟</span>
-                    Agregar Papas
-                  </h3>
-                  <label className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all cursor-pointer hover:shadow-sm ${
-  withFries
-    ? 'border-[#FF8C00] bg-orange-50 shadow-sm'
-    : 'border-gray-200 bg-white hover:border-gray-300'
-}`}>
-
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={withFries}
-                        onChange={() => setWithFries(!withFries)}
-                        className="w-5 h-5 accent-[#FF8C00] mr-4"
-                      />
-                      <div>
+                                            <div>
                         <span className="text-lg font-bold text-gray-800">Papas Francesas</span>
                         <p className="text-sm text-gray-600">Papas francesas crujientes y doradas</p>
                       </div>
@@ -322,6 +295,7 @@ const CustomizationPage: React.FC = () => {
                   </label>
                 </div>
               )}
+              
 
               {/* Organized customization options with dropdowns */}
               <div className="space-y-4">
