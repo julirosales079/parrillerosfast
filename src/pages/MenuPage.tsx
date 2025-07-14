@@ -321,14 +321,14 @@ const MenuPage: React.FC = () => {
 
         {/* Menu Grid */}
         {itemsToShow.length > 0 ? (
-          <div ref={menuGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto" data-tour="menu-grid">
+          <div ref={menuGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto" data-tour="menu-grid">
             {itemsToShow.map((item, index) => (
               <div
                 key={item.id}
                 ref={el => menuCardsRefs.current[index] = el}
-                className="menu-card-container"
+                className="menu-card-container transform transition-all duration-300"
               >
-                <div className="menu-card-enhanced rounded-2xl">
+                <div className="menu-card-enhanced rounded-3xl overflow-hidden">
                   <MenuCard item={item} />
                 </div>
               </div>
