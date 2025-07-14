@@ -1,5 +1,4 @@
 import React from 'react';
-import { Plus } from 'lucide-react';
 import { MenuItem } from '../types';
 import { useOrder } from '../context/OrderContext';
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +33,7 @@ const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
     <div 
       className={`group relative bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer border-2 ${
         isAddition ? 'border-[#FF8C00]/30' : 'border-gray-100 hover:border-[#FF8C00]/20'
-      }`}
+      } hover:scale-[1.02] active:scale-[0.98]`}
       onClick={handleClick}
     >
       {/* Full Image Container - No zoom effect */}
@@ -77,18 +76,6 @@ const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
             {name}
           </h3>
         </div>
-      </div>
-
-      {/* Action Button */}
-      <div className="p-4">
-        <button className={`flex items-center justify-center w-full py-3 px-4 rounded-2xl font-bold text-base transition-all duration-300 ${
-          isAddition 
-            ? 'bg-gradient-to-r from-orange-50 to-orange-100 text-[#FF8C00] hover:from-[#FF8C00] hover:to-orange-600 hover:text-white shadow-md hover:shadow-lg'
-            : 'bg-gradient-to-r from-[#FF8C00] to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-lg hover:shadow-xl'
-        }`}>
-          <Plus size={20} className="mr-2" />
-          <span>{isAddition ? 'Agregar' : 'Personalizar'}</span>
-        </button>
       </div>
 
       {/* Subtle hover effect without zoom */}
