@@ -43,7 +43,48 @@ const MenuPage: React.FC = () => {
 
   // Filter items based on category and search query - MOVED BEFORE useEffect
   const filteredItems = useMemo(() => {
-    let items = menuItems.filter((item) => item.category === selectedCategory);
+    let items;
+    
+    // Handle drink subcategories
+    if (selectedCategory === 'gaseosas') {
+      items = menuItems.filter(item => 
+        item.category === 'drinks' && (
+          item.name.includes('GASEOSA') || 
+          item.name.includes('COCA') ||
+          item.name.includes('FUZE')
+        )
+      );
+    } else if (selectedCategory === 'limonadas') {
+      items = menuItems.filter(item => 
+        item.category === 'drinks' && item.name.includes('LIMONADA')
+      );
+    } else if (selectedCategory === 'jugos-naturales') {
+      items = menuItems.filter(item => 
+        item.category === 'drinks' && item.name.includes('JUGO NATURAL')
+      );
+    } else if (selectedCategory === 'malteadas') {
+      items = menuItems.filter(item => 
+        item.category === 'drinks' && item.name.includes('MALTEDA')
+      );
+    } else if (selectedCategory === 'cervezas') {
+      items = menuItems.filter(item => 
+        item.category === 'drinks' && item.name.includes('CERVEZA')
+      );
+    } else if (selectedCategory === 'otras-bebidas') {
+      items = menuItems.filter(item => 
+        item.category === 'drinks' && 
+        !item.name.includes('GASEOSA') && 
+        !item.name.includes('COCA') &&
+        !item.name.includes('FUZE') &&
+        !item.name.includes('LIMONADA') &&
+        !item.name.includes('JUGO NATURAL') &&
+        !item.name.includes('MALTEDA') &&
+        !item.name.includes('CERVEZA')
+      );
+    } else {
+      // Default filtering by category
+      items = menuItems.filter((item) => item.category === selectedCategory);
+    }
     
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
