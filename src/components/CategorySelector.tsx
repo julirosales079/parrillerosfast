@@ -48,6 +48,21 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
     { id: 'otras-bebidas', name: 'Otras Bebidas', icon: '☕' }
   ];
 
+  // Check if we're in burger context (main burgers category or any burger subcategory)
+  const isInBurgerContext = selectedCategory === 'burgers' || 
+                           selectedCategory === 'classic-burgers' || 
+                           selectedCategory === 'deluxe-burgers' || 
+                           selectedCategory === 'contest-burgers';
+
+  // Check if we're in drinks context (main drinks category or any drink subcategory)
+  const isInDrinksContext = selectedCategory === 'drinks' || 
+                           selectedCategory === 'gaseosas' || 
+                           selectedCategory === 'limonadas' || 
+                           selectedCategory === 'jugos-naturales' || 
+                           selectedCategory === 'malteadas' || 
+                           selectedCategory === 'cervezas' || 
+                           selectedCategory === 'otras-bebidas';
+
   return (
     <div className="bg-white shadow-lg rounded-2xl p-4 mt-18">
       {/* Main categories */}
@@ -57,12 +72,19 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
             key={category.id}
             onClick={() => onSelectCategory(category.id)}
             className={`flex flex-col items-center px-6 py-3 rounded-xl transition-all transform hover:scale-105 ${
-              selectedCategory === category.id
+              selectedCategory === category.id || 
+              (category.id === 'burgers' && isInBurgerContext) ||
+              (category.id === 'drinks' && isInDrinksContext)
                 ? 'bg-[#FF8C00] text-white shadow-lg scale-105'
                 : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
             }`}
           >
-            <div className={`mb-2 ${selectedCategory === category.id ? 'text-white' : 'text-[#FF8C00]'}`}>
+            <div className={`mb-2 ${
+              selectedCategory === category.id || 
+              (category.id === 'burgers' && isInBurgerContext) ||
+              (category.id === 'drinks' && isInDrinksContext)
+                ? 'text-white' : 'text-[#FF8C00]'
+            }`}>
               {getIconForCategory(category.icon)}
             </div>
             <span className="text-sm font-medium whitespace-nowrap">{category.name}</span>
@@ -70,8 +92,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         ))}
       </div>
 
-      {/* Burger subcategories - only show when burgers category is selected */}
-      {selectedCategory === 'burgers' && (
+      {/* Burger subcategories - show when in burger context */}
+      {isInBurgerContext && (
         <div className="grid grid-cols-3 gap-3 mt-4">
           {burgerCategories.map((category) => (
             <button
@@ -89,8 +111,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
         </div>
       )}
 
-      {/* Drink subcategories - only show when drinks category is selected */}
-      {selectedCategory === 'drinks' && (
+      {/* Drink subcategories - show when in drinks context */}
+      {isInDrinksContext && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
           {drinkSubcategories.map((subcategory) => (
             <button
