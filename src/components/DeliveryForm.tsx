@@ -691,11 +691,8 @@ ${cartDetails}
     
     setIsSubmitting(true);
     
-    // Simulate order processing
+    // Simulate order processing and redirect directly
     setTimeout(() => {
-      setIsSubmitting(false);
-      setOrderSubmitted(true);
-
       // Construct WhatsApp message with exact format
       const message = generateTicketContent();
       
@@ -705,6 +702,10 @@ ${cartDetails}
 
       // Open WhatsApp in a new tab
       window.open(whatsappUrl, '_blank');
+      
+      // Clear cart and redirect to home immediately
+      clearCart();
+      navigate('/');
     }, 2000);
   };
 
@@ -720,160 +721,6 @@ ${cartDetails}
         onLocationSelected={handleLocationSelected}
         onBack={onBack}
       />
-    );
-  }
-
-  // Success confirmation screen
-  if (orderSubmitted) {
-    const subtotal = total * 0.92;
-    const inc = total * 0.08;
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-orange-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle size={48} className="text-green-600" />
-          </div>
-          
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            ¡Pedido Enviado Exitosamente! 🎉
-          </h1>
-          
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
-            <p className="text-orange-800 font-semibold mb-2">
-              📞 Te contactaremos pronto
-            </p>
-            <p className="text-sm text-orange-700">
-              El equipo de <strong className="font-heavyrust-primary">{selectedLocation?.name}</strong> se comunicará contigo en los próximos minutos para confirmar tu pedido y coordinar la entrega.
-            </p>
-          </div>
-
-          {/* Detailed Order Information */}
-          <div className="space-y-3 mb-6 text-left">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">📋 Número de pedido:</span>
-              <span className="font-bold text-[#FF8C00]">#{orderNumber.toString().padStart(3, '0')}</span>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">🏪 Sede:</span>
-              <span className="font-medium font-heavyrust-primary">{selectedLocation?.name}</span>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">👤 Cliente:</span>
-              <span className="font-medium">{formData.name}</span>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">📱 Teléfono:</span>
-              <span className="font-medium">{formData.phone}</span>
-            </div>
-
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">📍 Dirección:</span>
-              <span className="font-medium text-right">{formData.address}, {formData.neighborhood}</span>
-            </div>
-
-            {/* Información de factura */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">📄 Factura:</span>
-              <span className="font-medium text-right">
-                {formData.requiresInvoice ? `Sí - CC: ${formData.cedula}` : 'No requerida'}
-              </span>
-            </div>
-
-            {/* Desglose de costos corregido - INC en lugar de IVA */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-bold text-blue-800 mb-3">💰 Desglose de Costos:</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-blue-700">Subtotal:</span>
-                  <span className="font-medium">${Math.round(subtotal).toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-blue-700">INC (8%):</span>
-                  <span className="font-medium">${Math.round(inc).toLocaleString()}</span>
-                </div>
-                <div className="border-t border-blue-300 pt-2 mt-2">
-                  <div className="flex justify-between font-bold text-base">
-                    <span className="text-blue-800">TOTAL:</span>
-                    <span className="text-[#FF8C00]">${Math.round(total).toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">💳 Pago:</span>
-              <span className="font-medium">{formData.paymentMethod}</span>
-            </div>
-          </div>
-
-          {/* Order Items Summary */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <h4 className="font-bold text-blue-800 mb-3">🛒 Resumen del pedido:</h4>
-            <div className="space-y-2 text-left">
-              {cart.map((item, index) => (
-                <div key={item.id} className="text-sm">
-                  <span className="font-medium text-blue-700">
-                    {index + 1}. {item.menuItem.name}
-                    {item.withFries && ' + Papas'}
-                  </span>
-                  <span className="text-blue-600 ml-2">x{item.quantity}</span>
-                  {item.customizations.length > 0 && (
-                    <div className="text-xs text-blue-600 ml-4">
-                      + {item.customizations.map(c => c.name.replace('AD ', '')).join(', ')}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center justify-center mb-2">
-              <Clock size={20} className="text-blue-600 mr-2" />
-              <span className="font-bold text-blue-800">Tiempo estimado</span>
-            </div>
-            <p className="text-2xl font-bold text-blue-600">45-60 minutos</p>
-          </div>
-
-          {/* Ticket Actions */}
-          <div className="space-y-3 mb-6">
-            <div className="flex gap-2">
-              <button
-                onClick={handleDownloadTicket}
-                className="flex-1 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center text-sm"
-              >
-                <Download size={16} className="mr-1" />
-                Descargar PDF
-              </button>
-              <button
-                onClick={handlePrintTicket}
-                className="flex-1 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center text-sm"
-              >
-                <Printer size={16} className="mr-1" />
-                Imprimir
-              </button>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <button
-              onClick={handleFinish}
-              className="w-full py-3 bg-[#FF8C00] text-white font-bold rounded-lg hover:bg-orange-600 transition-colors shadow-lg"
-            >
-              Finalizar
-            </button>
-          </div>
-
-          {/* Hidden ticket content for printing */}
-          <div ref={ticketRef} className="hidden">
-            <pre>{generateTicketContent()}</pre>
-          </div>
-        </div>
-      </div>
     );
   }
 

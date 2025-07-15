@@ -324,13 +324,11 @@ const MenuPage: React.FC = () => {
         </div>
 
         {/* Search Bar */}
-        <div ref={searchBarRef} className="max-w-4xl mx-auto mb-8" data-tour="search-bar">
-          <div className="menu-search-enhanced rounded-2xl p-1">
-            <SearchBar 
-              onSearch={handleSearch}
-              placeholder="Buscar hamburguesas, bebidas, acompañamientos..."
-            />
-          </div>
+        <div ref={searchBarRef} className="max-w-6xl mx-auto mb-8" data-tour="search-bar">
+          <SearchBar 
+            onSearch={handleSearch}
+            placeholder="Buscar hamburguesas, bebidas, acompañamientos..."
+          />
         </div>
 
         {/* Category Selector - only show when not searching */}
